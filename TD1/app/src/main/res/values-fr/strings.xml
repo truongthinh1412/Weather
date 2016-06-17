@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Météo</string>
+
+    <string name="navigation_drawer_open">Ouvrir navigation drawer</string>
+    <string name="navigation_drawer_close">Fermer navigation drawer</string>
+
+    <string name="action_settings">Paramètre</string>
+    <string name="nav_header_full_name">Nom et prénom</string>
+    <string name="nav_header_email_address">L\'adresse électronique</string>
+    <string name="content_main_decoded_response_java">Response decodée  (Java)</string>
+    <string name="content_main_wait_decoded_json_here">Attendez - le message se trouve ici</string>
+    <string name="content_main_wait_decoded_json_here_1">Attendez - le message se trouve ici</string>
+    <string name="cpntent_main_wait_decoded_json_here_2">Attendez - le message se trouve ici</string>
+    <string name="content_main_wait_decoded_json_here_3">Attendez - le message se trouve ici</string>
+    <string name="content_main_wait_decoded_json_here_4">Attendez - le message se trouve ici</string>
+    <string name="content_main_wait_decoded_json_here_5">Attendez - le message se trouve ici</string>
+    <string name="content_main_wait_decoded_json_here_6">Attendez - le message se trouve ici</string>
+    <string name="content_main_wait_decoded_json_here_7">Attendez - le message se trouve ici</string>
+    <string name="content_main_wait_decoded_json_here_8">Attendez - le message se trouve ici</string>
+    <string name="content_main_wait_full_json_string_goes_here">Attendez - le message se trouve ici</string>
+    <string name="content_main_server_response_json">Response du Server (JSON)</string>
+    <string name="content_main_client_request_url">Requete du client (URL)</string>
+    <string name="content_main_url_goes_here">Ici se trouve l\'URL...</string>
+    <string name="content_main_hello">Salut !</string>
+    <string name="activity_main_drawer_my_favorites">Mes préferées</string>
+    <string name="activity_main_drawer_search">Rechercher</string>
+    <string name="activity_main_drawer_notifications">Notifications</string>
+    <string name="activity_main_drawer_communicate">Communiquer</string>
+    <string name="activity_main_drawer_settings">Paramètres</string>
+    <string name="activity_main_drawer_about">Plus d\'information</string>
+</resources>
