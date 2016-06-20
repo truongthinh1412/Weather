@@ -15,88 +15,129 @@
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
-        android:orientation="vertical" >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_client_request_url"/>
-        <TextView
-            android:id="@+id/txtRequestUrl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_url_goes_here" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/content_main_server_response_json" />
-        <TextView
-            android:id="@+id/txtResponseJson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_wait_full_json_string_goes_here" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/content_main_decoded_response_java" />
-        <TextView
-            android:id="@+id/winddeg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_wait_decoded_json_here" />
-        <TextView
-            android:id="@+id/windspeed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_wait_decoded_json_here_1" />
-        <TextView
-            android:id="@+id/coordlon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/cpntent_main_wait_decoded_json_here_2" />
-        <TextView
-            android:id="@+id/coordlat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_wait_decoded_json_here_3" />
-        <TextView
-            android:id="@+id/temp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_wait_decoded_json_here_4" />
-        <TextView
-            android:id="@+id/press"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_wait_decoded_json_here_5" />
-        <TextView
-            android:id="@+id/humid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_wait_decoded_json_here_6" />
-        <TextView
-            android:id="@+id/tempmin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_wait_decoded_json_here_7" />
-        <TextView
-            android:id="@+id/tempmax"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_main_wait_decoded_json_here_8" />
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <GridLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/content_main_hello"
-            android:id="@+id/txtMsg" />
+            android:layout_weight="0.23"
+            android:layout_gravity="center">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="See the location on Google Maps"
-            android:id="@+id/mapsbutton" />
+            <TextView
+                android:id="@+id/coordlon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cpntent_main_wait_decoded_json_here_2"
+                android:layout_column="0"
+                android:layout_row="1" />
+
+            <TextView
+                android:id="@+id/tempmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/content_main_wait_decoded_json_here_7"
+                android:layout_column="0"
+                android:layout_row="3"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="left" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Weather Condition :"
+                android:id="@+id/textView"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:id="@+id/tempmax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/content_main_wait_decoded_json_here_8"
+                android:layout_column="0"
+                android:layout_row="3"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/press"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/content_main_wait_decoded_json_here_5"
+                android:layout_column="0"
+                android:layout_row="4"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Location :"
+                android:id="@+id/location"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:id="@+id/coordlat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/content_main_wait_decoded_json_here_3"
+                android:layout_column="0"
+                android:layout_row="1"
+                android:layout_gravity="right" />
+
+            <TextView
+                android:id="@+id/humid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/content_main_wait_decoded_json_here_6"
+                android:layout_column="0"
+                android:layout_row="5"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/winddeg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/content_main_wait_decoded_json_here"
+                android:layout_row="6"
+                android:layout_column="0"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/windspeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/content_main_wait_decoded_json_here_1"
+                android:layout_column="0"
+                android:layout_row="6"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add to Favorites"
+                android:id="@+id/favButton"
+                android:layout_row="7"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_margin="10dp" />
+        </GridLayout>
+
     </LinearLayout>
 </RelativeLayout>

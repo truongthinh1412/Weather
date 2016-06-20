@@ -47,28 +47,35 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    TextView txtRequestUrl, txtResponseJson, WindDeg, WindSpeed, CoordLon, CoordLat,Temperature,Pressure,Humidity,TempMin, TempMax;
+    TextView txtRequestUrl, txtResponseJson, WindDeg, WindSpeed, CoordLon, CoordLat,Pressure,Humidity,TempMin, TempMax;
     ActionBar actionBar;
     SearchView txtSearchValue;
     TextView txtMsg;
     SharedPreferences sharedPreferences;
+    static SharedPreferences favoritesCities;
+    static City[] favCities = new City[AddLocationActivity.maxFavorites];
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    GPSTracker gps = new GPSTracker(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        txtMsg = (TextView)findViewById(R.id.txtMsg);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
+
+        for(int i = 0; i < AddLocationActivity.maxFavorites; i++){
+            favCities[i] = new City();
+        }
 
         actionBar = getActionBar();
 
@@ -76,13 +83,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Your location is", Snackbar.LENGTH_LONG)
-                 //       .setAction("Action", null).show();
-                /*if(gps.canGetLocation()) {
+                Snackbar.make(view, "Your location is", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                GPSTracker gps = new GPSTracker(MainActivity.this);
+                if(gps.canGetLocation()) {
                     Toast.makeText(getApplicationContext(), "Your location is" + gps.getLatitude() + " / " + gps.getLongitude(), Toast.LENGTH_SHORT).show();
                  }else{
                     Toast.makeText(getApplicationContext(), "Your GPS is not enabled", Toast.LENGTH_SHORT).show();
-                }*/
+                }
             }
         });
 
@@ -102,21 +110,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView ImageView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
         ImageView.setImageDrawable(dr);
 
-        TextView view = (TextView) navigationView.getMenu().findItem(R.id.nav_favorites).getActionView();
-        view.setText("2");
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
 
-        txtRequestUrl = (TextView) findViewById(R.id.txtRequestUrl);
-        txtResponseJson = (TextView) findViewById(R.id.txtResponseJson);
+        //txtRequestUrl = (TextView) findViewById(R.id.txtRequestUrl);
+        //txtResponseJson = (TextView) findViewById(R.id.txtResponseJson);
         WindDeg = (TextView) findViewById(R.id.winddeg);
         WindSpeed = (TextView) findViewById(R.id.windspeed);
         CoordLat = (TextView) findViewById(R.id.coordlat);
         CoordLon = (TextView) findViewById(R.id.coordlon);
-        Temperature = (TextView) findViewById(R.id.temp);
+        //Temperature = (TextView) findViewById(R.id.temp);
         Pressure = (TextView) findViewById(R.id.press);
         Humidity = (TextView) findViewById(R.id.humid);
         TempMin = (TextView) findViewById(R.id.tempmin);
@@ -132,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(sharedPreferences.contains("cityId")){
             SERVER_URL = "http://api.openweathermap.org/data/2.5/weather?id=" + sharedPreferences.getString("cityId","") + "&units=metric&appid=8b62177ed538309f1fe0756026559a29";
         }
-        txtRequestUrl.setText(new Date() + "\n" + SERVER_URL);
+        //txtRequestUrl.setText(new Date() + "\n" + SERVER_URL);
         // Use AsyncTask to execute potential slow task without freezing GUI
         new LongOperation().execute(SERVER_URL);
     }
@@ -183,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog.dismiss();
 
                 // update GUI with JSON Response
-                txtResponseJson.setText(jsonResponse);
+                // txtResponseJson.setText(jsonResponse);
 
                 // Step4. Convert JSON list into a Java collection of Person objects
                 // prepare to decode JSON response and create Java list
@@ -196,20 +201,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         WindSpeed.setText("Wind Speed is at : " + m.getWind().getSpeed());
                         CoordLon.setText("Longitude : " + m.getCoord().getLon());
                         CoordLat.setText("Latitude : " + m.getCoord().getLat());
-                        Temperature.setText("Temperature : " + m.getMain().getTemp());
+                        //Temperature.setText("Temperature : " + m.getMain().getTemp());
                         Pressure.setText("Pressure : " + m.getMain().getPressure());
                         Humidity.setText("Humidity : " + m.getMain().getHumidity());
                         TempMin.setText("Lowest Possible  Temperature : " + m.getMain().getTemp_min());
                         TempMax.setText("Highest Possible Temperature : " + m.getMain().getTemp_max());
 
                         //save to SharedPrefs
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        final SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("cityId", m.getId()+"");
                         editor.commit();
 
+                        Button addLocationToFav = (Button)findViewById(R.id.favButton);
+                        addLocationToFav.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                boolean fullfav = true;
+                                for (int j = 0; j < AddLocationActivity.maxFavorites; j++){
+                                    if(favCities[j].id ==("")){
+                                        fullfav = false;
+                                    }
+                                }
+                                if(fullfav){
+                                    Toast.makeText(getBaseContext(),"Your favorites is full ! Please remove some locations before adding", Toast.LENGTH_LONG).show();
+                                }else{
+                                    for (int i = 0; i < AddLocationActivity.maxFavorites; i++) {
+                                        if(favCities[i].id == m.getId()+""){
+                                            Toast.makeText(getBaseContext(),"This location is already in your Favorites", Toast.LENGTH_LONG).show();
+                                            break;
+                                        }
+                                        if (favCities[i].id == "") {
+                                            favCities[i].id = m.getId() + "";
+                                            favCities[i].name = m.getName();
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                favoritesCities = getSharedPreferences("MyCities", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor mEdit1 = favoritesCities.edit();
+                                mEdit1.putInt("Status_size", AddLocationActivity.maxFavorites);
+
+                                //mEdit1.clear();
+                                for(int i=0;i<AddLocationActivity.maxFavorites;i++)
+                                {
+                                    mEdit1.remove("Status_" + i + "id");
+                                    mEdit1.remove("Status_" + i + "name");
+                                    mEdit1.putString("Status_" + i + "id", favCities[i].getId());
+                                    mEdit1.putString("Status_" + i + "name", favCities[i].getName());
+                                }
+                                mEdit1.commit();
+                            }
+                        });
 
                         //Button to show location
-                        Button showLocation = (Button)findViewById(R.id.mapsbutton);
+                        FloatingActionButton showLocation = (FloatingActionButton)findViewById(R.id.fab1);
                         showLocation.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -256,6 +302,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onQueryTextSubmit(String query) {
                 //Toast.makeText(getApplicationContext(),"1-SUBMIT..." + query,Toast.LENGTH_SHORT).show();
                 //recreate the original ActionBar
+                query = query.replace(" ","");
                 String SERVER_URL = "http://api.openweathermap.org/data/2.5/weather?q=" + query + ",vn&units=metric&appid=8b62177ed538309f1fe0756026559a29";
                 new LongOperation().execute(SERVER_URL);
                 invalidateOptionsMenu();
@@ -315,6 +362,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(getApplicationContext(),"I clicked on Home", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_favorites) {
             Toast.makeText(getApplicationContext(),"I clicked on Favorites", Toast.LENGTH_LONG).show();
+            Intent intentAdd = new Intent(MainActivity.this,AddLocationActivity.class);
+            startActivity(intentAdd);
         } else if (id == R.id.nav_search) {
             Toast.makeText(getApplicationContext(),"I clicked on Search", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_notifications) {
